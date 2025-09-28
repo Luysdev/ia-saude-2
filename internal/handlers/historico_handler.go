@@ -23,3 +23,23 @@ func CreateHistoricoHandler(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, historico)
 }
+
+func GetAllHistoricoHandler(c *gin.Context) {
+	historicos, err := services.GetAllHistoricoService()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, historicos)
+}
+
+func GetHistoricoByIdHandler(c *gin.Context) {
+	id := c.Param("id")
+
+	historico, err := services.GetHistoricoByIdService(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, historico)
+}
