@@ -11,6 +11,7 @@ func Migrate() {
 		&models.Medico{},
 		&models.Historico{},
 		&models.Exame{},
+		&models.Consulta{},
 	)
 
 	if err != nil {

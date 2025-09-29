@@ -15,6 +15,7 @@ func InitRouter() {
 	routes.RouteHistorico(router)
 	routes.RoutePaciente(router)
 	routes.RouteConsulta(router)
+	routes.RouteAnalyse(router)
 
 	router.Run(":4949")
 }

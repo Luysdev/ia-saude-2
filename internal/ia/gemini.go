@@ -26,7 +26,6 @@ func InitGemini() {
 	}
 }
 
-// AskGemini envia um prompt e retorna a resposta
 func AskGemini(prompt string) (string, error) {
 	ctx := context.Background()
 	model := client.GenerativeModel("models/gemini-2.5-flash")
