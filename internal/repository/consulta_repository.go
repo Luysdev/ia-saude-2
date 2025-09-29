@@ -5,8 +5,8 @@ import (
 	"saude/internal/models"
 )
 
-func CreateConsulta(h *models.Consulta) error {
-	return db.DB.Create(h).Error
+func CreateConsulta(c *models.Consulta) error {
+	return db.DB.Create(c).Error
 }
 
 func GetAllConsulta() ([]models.Consulta, error) {

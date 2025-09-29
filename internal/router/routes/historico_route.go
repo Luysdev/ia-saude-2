@@ -18,8 +18,8 @@ func RouteHistorico(router *gin.Engine) {
 
 	// // *CREATE*
 	historicoGroup.POST("/", handlers.CreateHistoricoHandler)
-	// // *GETALL*
-	// historicoGroup.GET("/", handlers.GetAllHistoricoHandler)
-	// // *GETBYID*
-	// historicoGroup.GET("/:id", handlers.GetHistoricoByIdHandler)
+	// *GETALL*
+	historicoGroup.GET("/", handlers.GetAllHistoricoHandler)
+	// *GETBYID*
+	historicoGroup.GET("/:id", handlers.GetHistoricoByIdHandler)
 }

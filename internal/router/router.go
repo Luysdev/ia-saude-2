@@ -13,6 +13,8 @@ func InitRouter() {
 
 	routes.RouteMedico(router)
 	routes.RouteHistorico(router)
+	routes.RoutePaciente(router)
+	routes.RouteConsulta(router)
 
 	router.Run(":4949")
 }

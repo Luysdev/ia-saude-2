@@ -8,38 +8,38 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateExameHandler(c *gin.Context) {
-	var exame models.Exame
+func CreatePacienteHandler(c *gin.Context) {
+	var paciente models.Paciente
 
-	if err := c.ShouldBindJSON(&exame); err != nil {
+	if err := c.ShouldBindJSON(&paciente); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := services.CreateExameService(&exame); err != nil {
+	if err := services.CreatePacienteService(&paciente); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusCreated, exame)
+	c.JSON(http.StatusCreated, paciente)
 }
 
-func GetAllExameHandler(c *gin.Context) {
-	exames, err := services.GetAllExameService()
+func GetAllPacienteHandler(c *gin.Context) {
+	pacientes, err := services.GetAllPacienteService()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, exames)
+	c.JSON(http.StatusOK, pacientes)
 }
 
-func GetExameByIdHandler(c *gin.Context) {
+func GetPacienteByIdHandler(c *gin.Context) {
 	id := c.Param("id")
 
-	exame, err := services.GetExameByIdService(id)
+	paciente, err := services.GetPacienteByIdService(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, exame)
+	c.JSON(http.StatusOK, paciente)
 }
