@@ -1,0 +1,36 @@
+# Binaries e executáveis
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Arquivos de build do Go
+*.test
+*.out
+*.log
+*.coverprofile
+*.prof
+*.profraw
+
+# Diretórios de build/cache do Go
+/bin/
+/build/
+/dist/
+/tmp/
+/*.db
+
+# Dependências do Go
+vendor/
+
+# Configurações do VS Code
+.vscode/
+.history/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Variáveis de ambiente
+.env
+.env.*

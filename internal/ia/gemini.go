@@ -1,55 +1,49 @@
-package ai
+package ia
 
 import (
-	"bytes"
-	"encoding/json"
-	"net/http"
+	"context"
+	"fmt"
+	"log"
+	"os"
+
+	genai "github.com/google/generative-ai-go/genai"
+	"google.golang.org/api/option"
 )
 
-type ContentPart struct {
-	Text string `json:"text"`
-}
+var client *genai.Client
 
-type Content struct {
-	Parts []ContentPart `json:"parts"`
-}
-
-type GeminiRequest struct {
-	Contents []Content `json:"contents"`
-}
-
-func CallGemini(prompt string) (string, error) {
-	url := "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
-
-	reqBody := GeminiRequest{
-		Contents: []Content{
-			{Parts: []ContentPart{{Text: prompt}}},
-		},
+func InitGemini() {
+	apiKey := os.Getenv("GEMINI_API_KEY")
+	if apiKey == "" {
+		log.Fatal("⚠️ Defina a variável de ambiente GEMINI_API_KEY com sua chave")
 	}
 
-	jsonData, _ := json.Marshal(reqBody)
-
-	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("X-goog-api-key", "AIzaSyB2-NQSkKiObstbSbiFfR3FcMmIperKZ84")
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	ctx := context.Background()
+	var err error
+	client, err = genai.NewClient(ctx, option.WithAPIKey(apiKey))
 	if err != nil {
-		return "", err
+		log.Fatalf("Erro criando cliente Gemini: %v", err)
 	}
-	defer resp.Body.Close()
+}
 
-	var result map[string]interface{}
-	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
-		return "", err
-	}
+// AskGemini envia um prompt e retorna a resposta
+func AskGemini(prompt string) (string, error) {
+	ctx := context.Background()
+	model := client.GenerativeModel("models/gemini-2.5-flash")
 
-	// Marshal de volta para JSON e transforma em string
-	jsonBytes, err := json.Marshal(result)
+	resp, err := model.GenerateContent(ctx, genai.Text(prompt))
+
 	if err != nil {
 		return "", err
 	}
 
-	return string(jsonBytes), nil
+	var result string
+	for _, candidate := range resp.Candidates {
+		if candidate.Content != nil {
+			for _, part := range candidate.Content.Parts {
+				result += fmt.Sprintf("%v", part)
+			}
+		}
+	}
+	return result, nil
 }

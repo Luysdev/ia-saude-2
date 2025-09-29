@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"saude/internal/db"
+	"saude/internal/ia"
 
 	"github.com/joho/godotenv"
 )
@@ -15,4 +16,5 @@ func InitConfig() {
 
 	db.Connect()
 	db.Migrate()
+	ia.InitGemini()
 }
