@@ -24,3 +24,14 @@ func GetHistoricoById(id string) (*models.Historico, error) {
 	}
 	return &historico, nil
 }
+
+func UpdateHistorico(c *models.Historico) error {
+	return db.DB.Updates(c).Error
+}
+
+func DeleteHistorico(id string) error {
+	if err := db.DB.Where("historico_id = ?", id).Delete(&models.Historico{}).Error; err != nil {
+		return err
+	}
+	return nil
+}

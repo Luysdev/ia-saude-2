@@ -25,3 +25,14 @@ func GetMedicoById(id string) (*models.Medico, error) {
 
 	return &medico, nil
 }
+
+func UpdateMedico(c *models.Medico) error {
+	return db.DB.Updates(c).Error
+}
+
+func DeleteMedico(id string) error {
+	if err := db.DB.Where("medico_id = ?", id).Delete(&models.Medico{}).Error; err != nil {
+		return err
+	}
+	return nil
+}

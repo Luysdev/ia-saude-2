@@ -16,6 +16,5 @@ func RouteAnalyse(router *gin.Engine) {
 		})
 	})
 
-	// Get Informação Resumida do Paciente
 	analyseGroup.GET("/:id", handlers.GetAnalysePacienteHandler)
 }

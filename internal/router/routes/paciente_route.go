@@ -16,10 +16,9 @@ func RoutePaciente(router *gin.Engine) {
 		})
 	})
 
-	// // *CREATE*
 	pacienteGroup.POST("/", handlers.CreatePacienteHandler)
-	// *GETALL*
 	pacienteGroup.GET("/", handlers.GetAllPacienteHandler)
-	// *GETBYID*
 	pacienteGroup.GET("/:id", handlers.GetPacienteByIdHandler)
+	pacienteGroup.PUT("/:id", handlers.UpdatePacienteHandler)
+	pacienteGroup.DELETE("/:id", handlers.DeletePacienteHandler)
 }

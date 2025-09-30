@@ -4,42 +4,80 @@ import (
 	"net/http"
 	"saude/internal/models"
 	"saude/internal/services"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
-func CreateConsultaHandler(c *gin.Context) {
+// CREATE
+func CreateConsultaHandler(ctx *gin.Context) {
 	var consulta models.Consulta
-
-	if err := c.ShouldBindJSON(&consulta); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if err := ctx.ShouldBindJSON(&consulta); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := services.CreateConsultaService(&consulta); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	if err := services.CreateConsulta(&consulta); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusCreated, consulta)
+	ctx.JSON(http.StatusCreated, consulta)
 }
 
-func GetAllConsultaHandler(c *gin.Context) {
-	consultas, err := services.GetAllConsultaService()
+// GET ALL
+func GetAllConsultaHandler(ctx *gin.Context) {
+	consultas, err := services.GetAllConsulta()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, consultas)
+	ctx.JSON(http.StatusOK, consultas)
 }
 
-func GetConsultaByIdHandler(c *gin.Context) {
-	id := c.Param("id")
-
-	consulta, err := services.GetConsultaByIdService(id)
+// GET BY ID
+func GetConsultaByIdHandler(ctx *gin.Context) {
+	id := ctx.Param("id")
+	consulta, err := services.GetConsultaById(id)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "Consulta não encontrada"})
 		return
 	}
-	c.JSON(http.StatusOK, consulta)
+	ctx.JSON(http.StatusOK, consulta)
+}
+
+func UpdateConsultaHandler(ctx *gin.Context) {
+	idParam := ctx.Param("id")
+
+	id, err := strconv.ParseUint(idParam, 10, 32)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "ID inválido"})
+		return
+	}
+
+	var consulta models.Consulta
+	if err := ctx.ShouldBindJSON(&consulta); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	consulta.ID = uint(id)
+
+	if err := services.UpdateConsulta(&consulta); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, consulta)
+}
+
+func DeleteConsultaHandler(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	if err := services.DeleteConsulta(id); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "Consulta deletada com sucesso"})
 }

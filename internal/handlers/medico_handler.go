@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"saude/internal/models"
 	"saude/internal/services"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -42,4 +43,40 @@ func GetMedicoByIdHandler(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, medicos)
+}
+
+func UpdateMedicoHandler(ctx *gin.Context) {
+	idParam := ctx.Param("id")
+
+	id, err := strconv.ParseUint(idParam, 10, 32)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "ID inválido"})
+		return
+	}
+
+	var medico models.Medico
+	if err := ctx.ShouldBindJSON(&medico); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	medico.ID = uint(id)
+
+	if err := services.UpdateMedico(&medico); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, medico)
+}
+
+func DeleteMedicoHandler(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	if err := services.DeleteMedico(id); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "Medico deletada com sucesso"})
 }

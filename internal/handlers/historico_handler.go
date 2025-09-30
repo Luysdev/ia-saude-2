@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"saude/internal/models"
 	"saude/internal/services"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -42,4 +43,40 @@ func GetHistoricoByIdHandler(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, historico)
+}
+
+func UpdateHistoricoHandler(ctx *gin.Context) {
+	idParam := ctx.Param("id")
+
+	id, err := strconv.ParseUint(idParam, 10, 32)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "ID inválido"})
+		return
+	}
+
+	var historico models.Historico
+	if err := ctx.ShouldBindJSON(&historico); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	historico.ID = uint(id)
+
+	if err := services.UpdateHistorico(&historico); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, historico)
+}
+
+func DeleteHistoricoHandler(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	if err := services.DeleteHistorico(id); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "Historico deletada com sucesso"})
 }

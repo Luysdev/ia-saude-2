@@ -23,7 +23,6 @@ func generatePacienteSummary(paciente *models.Paciente) (string, error) {
 	basePrompt := utils.LoadPrompt("../internal/ia/prompts/base_summary.txt")
 	pacientePrompt := utils.LoadPrompt("../internal/ia/prompts/paciente_summary.txt")
 
-	// Monta os dados do paciente como texto
 	pacienteData := fmt.Sprintf(
 		"Nome: %s\nIdade: %d\nSexo: %s\nHistóricos: %v\nExames: %v\nConsultas: %v",
 		paciente.Nome,
@@ -34,10 +33,7 @@ func generatePacienteSummary(paciente *models.Paciente) (string, error) {
 		paciente.Consultas,
 	)
 
-	// Substitui placeholder do prompt do paciente
 	pacientePrompt = fmt.Sprintf(pacientePrompt, pacienteData)
-
-	// Combina base + paciente
 	finalPrompt := basePrompt + "\n\n" + pacientePrompt
 
 	resp, err := ia.AskGemini(finalPrompt)

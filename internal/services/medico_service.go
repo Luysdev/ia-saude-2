@@ -17,3 +17,11 @@ func GetAllMedicosService() ([]models.Medico, error) {
 func GetMedicoByIdService(id string) (*models.Medico, error) {
 	return repository.GetMedicoById(id)
 }
+
+func UpdateMedico(c *models.Medico) error {
+	return repository.UpdateMedico(c)
+}
+
+func DeleteMedico(id string) error {
+	return repository.DeleteMedico(id)
+}

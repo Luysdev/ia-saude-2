@@ -17,15 +17,10 @@ func RouteMedico(router *gin.Engine) {
 		})
 	})
 
-	// *CREATE*
 	medicoGroup.POST("/", handlers.CreateMedicoHandler)
-	// *GETALL*
 	medicoGroup.GET("/", handlers.GetAllMedicosHandler)
-	// *GETBYID*
 	medicoGroup.GET("/:id", handlers.GetMedicoByIdHandler)
-	// // *UPDATE*
-	// medicoGroup.PUT("/")
-	// // *DELETE*
-	// medicoGroup.DELETE("/")
+	medicoGroup.PUT("/:id", handlers.UpdateMedicoHandler)
+	medicoGroup.DELETE("/:id", handlers.DeleteMedicoHandler)
 
 }

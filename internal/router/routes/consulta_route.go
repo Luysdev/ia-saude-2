@@ -16,10 +16,9 @@ func RouteConsulta(router *gin.Engine) {
 		})
 	})
 
-	// // *CREATE*
 	consultaGroup.POST("/", handlers.CreateConsultaHandler)
-	// *GETALL*
 	consultaGroup.GET("/", handlers.GetAllConsultaHandler)
-	// *GETBYID*
 	consultaGroup.GET("/:id", handlers.GetConsultaByIdHandler)
+	consultaGroup.PUT("/:id", handlers.UpdateConsultaHandler)
+	consultaGroup.DELETE("/:id", handlers.DeleteConsultaHandler)
 }

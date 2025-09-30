@@ -5,14 +5,22 @@ import (
 	"saude/internal/repository"
 )
 
-func CreateConsultaService(h *models.Consulta) error {
-	return repository.CreateConsulta(h)
+func CreateConsulta(c *models.Consulta) error {
+	return repository.CreateConsulta(c)
 }
 
-func GetAllConsultaService() ([]models.Consulta, error) {
+func GetAllConsulta() ([]models.Consulta, error) {
 	return repository.GetAllConsulta()
 }
 
-func GetConsultaByIdService(id string) (*models.Consulta, error) {
+func GetConsultaById(id string) (*models.Consulta, error) {
 	return repository.GetConsultaById(id)
+}
+
+func UpdateConsulta(c *models.Consulta) error {
+	return repository.UpdateConsulta(c)
+}
+
+func DeleteConsulta(id string) error {
+	return repository.DeleteConsulta(id)
 }

@@ -16,3 +16,11 @@ func GetAllHistoricoService() ([]models.Historico, error) {
 func GetHistoricoByIdService(id string) (*models.Historico, error) {
 	return repository.GetHistoricoById(id)
 }
+
+func UpdateHistorico(c *models.Historico) error {
+	return repository.UpdateHistorico(c)
+}
+
+func DeleteHistorico(id string) error {
+	return repository.DeleteHistorico(id)
+}
