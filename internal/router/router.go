@@ -18,5 +18,5 @@ func InitRouter() {
 	routes.RouteAnalyse(router)
 	routes.RouteExame(router)
 
-	router.Run(":4949")
+	router.Run(":8080")
 }

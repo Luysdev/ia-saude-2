@@ -10,8 +10,8 @@
         "DB_HOST": "localhost",
         "DB_PORT": "5432",
         "DB_USER": "postgres",
-        "DB_PASSWORD": "123456",
-        "DB_NAME": "clinica",
+        "DB_PASSWORD": "123",
+        "DB_NAME": "saude",
         "GEMINI_API_KEY" : "AIzaSyBnzLAKFi8CJ8JdRI4XAF5kFYYU5lfEHeE"
       }
     }

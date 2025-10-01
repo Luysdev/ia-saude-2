@@ -20,8 +20,8 @@ func GetAnalysePacienteService(id string) (string, error) {
 
 func generatePacienteSummary(paciente *models.Paciente) (string, error) {
 
-	basePrompt := utils.LoadPrompt("../internal/ia/prompts/base_summary.txt")
-	pacientePrompt := utils.LoadPrompt("../internal/ia/prompts/paciente_summary.txt")
+	basePrompt := utils.LoadPrompt("./internal/ia/prompts/base_summary.txt")
+	pacientePrompt := utils.LoadPrompt("./internal/ia/prompts/paciente_summary.txt")
 
 	pacienteData := fmt.Sprintf(
 		"Nome: %s\nIdade: %d\nSexo: %s\nHistóricos: %v\nExames: %v\nConsultas: %v",
